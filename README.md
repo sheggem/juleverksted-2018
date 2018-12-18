@@ -6,20 +6,20 @@ Blinkestjerne er en liten applikasjon som kjører på ESP8266. Applikasjonen kan
 
 ### Biblioteker
 Følgende biblioteker må inkluderes får og kunne koble på WiFi og connecte til MQTT broker.
-´´´
+```
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-´´´
+```
 
 ### Connect WiFI
 Endre SID og wifi-passord. Vi bruker bouvet sitt gjestenett.
-´´´
+```
 char ssid[] = "<SID>";
 char pass[] = "<PASS>";
-´´´
+```
 
 Connect til WiFi kan gjøres med følgende kode.
-´´´
+```
 void wifiConnect() {
   Serial.print("Connecting to Wifi ssid: " + String(ssid));
   WiFi.begin(ssid, pass);
@@ -30,10 +30,10 @@ void wifiConnect() {
   Serial.print(" Connected, ip: ");
   Serial.println(WiFi.localIP());
 }
-´´´
+```
 
 ### Connect MQTT
-´´´
+```
 void mqtt() {
   while (!mqttClient.connected()) {
     Serial.print("Attempting MQTT connection to " + String(mqtt_server) + "...");
@@ -50,18 +50,18 @@ void mqtt() {
   }
   mqttClient.loop();
 }
-´´´
+```
 
 ### MQTT Publish
-´´´
+```
 void publiser(boolean ledActive) {
   int status = ledActive ? 10 : 0;
   mqttClient.publish(topic_publish, ("{\"" + String(my_name) + "\":" + String(status) + "}").c_str(), true);
 }
-´´´
+```
 
 ### MQTT Callback
-´´´
+```
 char message_buff[100];
 void mqttCallback(char* topic, byte* payload, unsigned int length) {
   int i = 0;
@@ -83,4 +83,4 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
       timerId = timer.setInterval(200L * verdi, ledBlink);
     }
 }
-´´´
+```
